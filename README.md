@@ -20,7 +20,7 @@
 
 | Frontend | Backend |
 |----------|---------|
-| **Production** → <https://your-username.github.io/dreamcart> | **Render API** → <https://smallbiz-backend.onrender.com> |
+| **Production** → https://lavisha-keshwani.github.io/Small-biz-e-commerce/ | **Render API** → <https://smallbiz-backend.onrender.com> |
 
 <details>
 <summary>🎥  Click to see a 30‑sec walkthrough</summary>
