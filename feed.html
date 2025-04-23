@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback & Suggestions</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            padding: 30px;
+        }
+
+        /* Animated Heading */
+        .feedback-heading {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff4e00, #ec9f05);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+
+        /* Feedback Form */
+        .feedback-form {
+            max-width: 600px;
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(255, 78, 0, 0.5);
+        }
+
+        .form-control {
+            background: #222;
+            border: none;
+            color: white;
+        }
+
+        .form-control::placeholder {
+            color: gray;
+        }
+
+        .form-control:focus {
+            background: #222;
+            color: white;
+            border: 2px solid #ff4e00;
+        }
+
+        /* Star Rating */
+        .stars {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+
+        .star {
+            font-size: 2rem;
+            cursor: pointer;
+            color: #555;
+            transition: 0.3s;
+        }
+
+        .star:hover, .star.active {
+            color: #ffcc00;
+            transform: scale(1.2);
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #ff4e00, #ec9f05);
+            border: none;
+            font-size: 18px;
+            padding: 10px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Feedback Message */
+        .thank-you-message {
+            display: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffcc00;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="feedback-heading">We Value Your Feedback!</h1>
+    <p>Tell us how we can improve. Your feedback helps businesses grow.</p>
+
+    <div class="feedback-form">
+        <label class="form-label">Your Name:</label>
+        <input type="text" id="name" class="form-control" placeholder="Enter your name">
+
+        <label class="form-label mt-3">Your Email:</label>
+        <input type="email" id="email" class="form-control" placeholder="Enter your email">
+
+        <label class="form-label mt-3">Select Business:</label>
+        <select id="business-select" class="form-control">
+            <option value="">-- Choose a Business --</option>
+            <option value="TechGadgets">nelumbocrochet</option>
+            <option value="FashionFiesta">GiftsbyGarvita</option>
+            <option value="HomeEssentials">candled_decor_by_pragya</option>
+            <option value="BookHaven">FashionFiesta</option>
+            <option value="OrganicBliss">Organic Bliss</option>
+        </select>
+
+        <label class="form-label mt-3">Rate the Business:</label>
+        <div class="stars">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+
+        <label class="form-label mt-3">What did you like the most?</label>
+        <input type="text" id="liked-most" class="form-control" placeholder="Tell us what stood out...">
+
+        <label class="form-label mt-3">Any suggestions for improvement?</label>
+        <input type="text" id="improvements" class="form-control" placeholder="How can we make it better?">
+
+        <label class="form-label mt-3">Your Feedback:</label>
+        <textarea id="feedback-text" class="form-control" rows="4" placeholder="Write your feedback here..."></textarea>
+
+        <button class="btn submit-btn w-100 mt-3" onclick="submitFeedback()">Submit Feedback</button>
+    </div>
+
+    <div class="thank-you-message" id="thank-you-message">Thank you for providing your valuable feedback! 😊</div>
+
+    <script>
+        // Star Rating Logic
+        const stars = document.querySelectorAll('.star');
+        let rating = 0;
+
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                rating = this.getAttribute('data-value');
+                stars.forEach(s => s.classList.remove('active'));
+                for (let i = 0; i < rating; i++) {
+                    stars[i].classList.add('active');
+                }
+            });
+        });
+
+        // Submit Feedback
+        function submitFeedback() {
+            let name = document.getElementById('name').value.trim();
+            let email = document.getElementById('email').value.trim();
+            let business = document.getElementById('business-select').value;
+            let likedMost = document.getElementById('liked-most').value.trim();
+            let improvements = document.getElementById('improvements').value.trim();
+            let feedbackText = document.getElementById('feedback-text').value.trim();
+
+            if (name === "" || email === "" || business === "" || rating === 0 || feedbackText === "") {
+                alert("Please fill all fields and provide a rating.");
+                return;
+            }
+
+            document.querySelector(".feedback-form").style.display = "none";
+            document.getElementById("thank-you-message").style.display = "block";
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Businesses</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: 'Neue Haas Grotesk', Helvetica, Arial, sans-serif;
+        }
+        .sale-timer {
+    background: linear-gradient(45deg, #ff4e00, #ec9f05);
+    color: white;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 5px;
+    width: 50%;
+    margin: 20px auto;
+    box-shadow: 0px 0px 10px rgba(255, 78, 0, 0.8);
+    animation: pulse 1.5s infinite alternate;
+}
+
+/* Timer Animation */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0px 0px 10px rgba(255, 78, 0, 0.8);
+    }
+    100% {
+        transform: scale(1.05);
+        box-shadow: 0px 0px 20px rgba(255, 78, 0, 1);
+    }
+}
+        h1 {
+    font-size: 50px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    background: linear-gradient(45deg, #69d900, #e2739c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: glowText 2s infinite alternate;
+}
+        /* Business List Styling */
+        .business-list {
+            text-align: center;
+            padding: 40px 0;
+        }
+        .business-item {
+            font-size: 24px;
+            font-weight: bold;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            display: inline-block;
+            margin: 10px;
+            border-bottom: 3px solid transparent;
+            position: relative;
+        }
+        .business-item:hover {
+            color: #1DB954;
+            border-bottom: 3px solid #1DB954;
+            transform: scale(1.1);
+        }
+        
+        /* Tooltip Category List */
+        .category-tooltip {
+            display: none;
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            white-space: nowrap;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .business-item:hover .category-tooltip {
+            display: block;
+        }
+
+        /* Product Section Styling */
+        .product-section {
+            margin-top: 50px;
+        }
+        .product-card {
+            background-color: #222;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+        .product-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .product-price {
+            color: #bbb;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <br><br><p ><font color="black" labsjdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</font></font></p>
+    <!-- Business List Section -->
+    <div class="container text-center">
+        <h1 class="mb-4"><b><u>Explore Businesses</u></b></h1>
+        <div class="sale-timer">
+            Hurry! Sale Ends In: <span id="countdown-timer"></span>
+        </div>
+        <script>
+            let countdownTime = new Date().getTime() + 3 * 60 * 60 * 1000;
+    
+    function updateCountdown() {
+        let now = new Date().getTime();
+        let timeLeft = countdownTime - now;
+    
+        if (timeLeft < 0) {
+            document.getElementById("countdown-timer").innerHTML = "Sale Ended!";
+            return;
+        }
+    
+        let hours = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
+        let minutes = Math.floor((timeLeft / (1000 * 60)) % 60);
+        let seconds = Math.floor((timeLeft / 1000) % 60);
+    
+        document.getElementById("countdown-timer").innerHTML = 
+            `${hours}h : ${minutes}m : ${seconds}s`;
+    }
+    
+    // Update every second
+    setInterval(updateCountdown, 1000);
+    updateCountdown(); // Call once to avoid initial delay
+        </script>
+        <div class="business-list">
+            <span class="business-item" onclick="scrollToProducts('GiftsbyGarvita')">
+                GiftsbyGarvita
+                <span class="category-tooltip">One stop solution for gifting</span>
+            </span>
+            <span class="business-item" onclick="scrollToProducts('FashionFiesta')">
+                Fashion Fiesta
+                <span class="category-tooltip">Homegrown kids fashion and lifestyle accessories</span>
+            </span>
+            <span class="business-item" onclick="scrollToProducts('nelumbocrochet')">
+                nelumbocrochet
+                <span class="category-tooltip">Gaurangi,Welcome to my Crochet Store</span>
+            </span>
+            <span class="business-item" onclick="scrollToProducts('candled_decor_by_pragya')">
+                candled_decor_by_pragya
+            <span class="category-tooltip">Candles Made With Love</span>
+            </span>
+            <span class="business-item" onclick="scrollToProducts('OrganicBliss')">
+                Organic Bliss
+                <span class="category-tooltip">Handcrafted skincare and soy wax candles</span>
+            </span>
+        </div>
+    </div>
+
+    <!-- Product Display Sections -->
+    <div class="container">
+        <div id="product-sections"></div>
+    </div>
+
+    <script>
+        // Sample product data for businesses
+        const productData = {
+            "OrganicBliss": [
+                { name: "Flower Table Top", price: "$50", img: "ob1.png" },
+                { name: "Candle Bouquet", price: "$120", img: "ob2.png" },
+                { name: "Flowers for Vases", price: "$75", img: "ob3.png" }
+            ],
+            "FashionFiesta": [
+                { name: "Hand-embroidered hair clips", price: "$80", img: "sao1.png" },
+                { name: "Hand Embroidery Ring", price: "$150", img: "sao2.png" },
+                { name: "Personalized Pendant", price: "$60", img: "sao3.png" }
+            ],
+            "GiftsbyGarvita": [
+                { name: "Pichwai mdf Rangoli", price: "$200", img: "craft1.png" },
+                { name: "Resin Pooja thali", price: "$90", img: "craft2.png" },
+                { name: "Vermala preservation clock", price: "$180", img: "craft3.png" }
+            ],
+            "nelumbocrochet": [
+                { name: "Ribbon Zipper Kit", price: "$15", img: "cro1.png" },
+                { name: "Daisy Candles", price: "$20", img: "cro2.png" },
+                { name: "Sunflower Mini Bouquets", price: "$100", img: "cro3.png" }
+            ],
+            "candled_decor_by_pragya": [
+                { name: "Soy Candle", price: "$25", img: "c1.png" },
+                { name: "Rose Candle", price: "$30", img: "c2.png" },
+                { name: "Lid Urli Candle", price: "$18", img: "c3.png" }
+            ]
+        };
+
+        // Function to generate and display all business products permanently
+        function displayAllProducts() {
+            const productSections = document.getElementById('product-sections');
+            productSections.innerHTML = "";
+
+            for (const business in productData) {
+                let productHTML = `
+                    <div class="product-section" id="${business}">
+                        <h2 class="text-center">${business.replace(/([A-Z])/g, ' $1').trim()}</h2>
+                        <div class="row">`;
+
+                productData[business].forEach(product => {
+                    productHTML += `
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="product-card">
+                                <img src="${product.img}" alt="${product.name}">
+                                <div class="product-name">${product.name}</div>
+                                <div class="product-price">${product.price}</div>
+                            </div>
+                        </div>`;
+                });
+
+                productHTML += `</div></div>`;
+                productSections.innerHTML += productHTML;
+            }
+        }
+
+        // Function to scroll to a specific business product section
+        function scrollToProducts(business) {
+            document.getElementById(business).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initialize the product display
+        displayAllProducts();
+    </script>
+
+</body>
+</html>

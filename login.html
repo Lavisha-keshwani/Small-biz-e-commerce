@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"="width=device-width, initial-scale=1.0">
+    <title>Login & Signup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #000911;
+            position: relative;
+        }
+        .container {
+            width: 800px;
+            height: auto; /* Allow dynamic height */
+            max-height: 600px; /* Set a maximum height */
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        /* Business Name, Tagline, and Icon */
+        .header {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            transition: 0.5s;
+        }
+        .business-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #C0C0C0;
+            transition: 0.5s;
+        }
+        .tagline {
+            font-size: 14px;
+            color: #7f8c8d;
+            transition: 0.5s;
+        }
+        .icon {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 24px;
+            color: #2c3e50;
+            transition: 0.5s;
+        }
+
+        /* Left and Right Panels */
+        .left, .right {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+        .left {
+            background: linear-gradient(135deg, #93cccf, #143232);
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .right {
+            text-align: center;
+            overflow-y: auto; /* Add vertical scrolling for the right panel */
+            padding: 20px;
+        }
+        h2 {
+            margin-bottom: 15px;
+        }
+        .form-group {
+            width: 80%;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .btn {
+            width: 80%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #2980b9;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background: #1f6692;
+        }
+        .toggle-text {
+            margin-top: 15px;
+            font-size: 14px;
+            cursor: pointer;
+            color: #2980b9;
+            display: block;
+        }
+        .otp-message {
+            font-size: 12px;
+            color: green;
+            display: none;
+            margin-top: 5px;
+        }
+
+        /* Toggle Effect */
+        .container.signup-active .left {
+            transform: translateX(100%);
+        }
+        .container.signup-active .right {
+            transform: translateX(-100%);
+        }
+        .container.signup-active .business-name {
+            color: #2980b9;
+        }
+        .container.signup-active .tagline {
+            color: #1f6692;
+        }
+        .container.signup-active .icon {
+            color: #2980b9;
+            transform: rotate(360deg);
+        }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 12px 20px; /* Increased padding for better spacing */
+            border: 2px solid #ccc; /* Slightly thicker border */
+            background: linear-gradient(135deg, #f9f9f9, #e6e6e6); /* Subtle gradient */
+            cursor: pointer;
+            text-align: center;
+            border-radius: 25px; /* Rounded corners */
+            font-size: 16px; /* Slightly larger font */
+            font-weight: bold; /* Bold text for emphasis */
+            color: #555; /* Neutral text color */
+            transition: all 0.3s ease; /* Smooth transition for hover effects */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, #2980b9, #1f6692); /* Gradient for active state */
+            color: white; /* White text for contrast */
+            border-color: #2980b9; /* Match border with active background */
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow */
+        }
+        .tab-btn:not(:last-child) {
+            margin-right: 10px; /* Add spacing between buttons */
+        }
+        .tab-btn:hover {
+            background: linear-gradient(135deg, #1f6692, #145a7a); /* Darker gradient on hover */
+            color: white; /* Ensure text remains visible */
+            transform: translateY(-2px); /* Slight lift effect */
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            background: #f9f9f9;
+            color: #555;
+        }
+        select:focus {
+            outline: none;
+            border-color: #2980b9;
+            box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="container">
+        <div class="header">
+            <div class="business-name" id="business-name">SmallBiz</div>
+            <div class="tagline" id="tagline">Continue to SmallBiz</div>
+        </div>
+        <div class="icon" id="icon">🏢</div>
+        <div class="left" id="left">
+            <h2>Welcome Back!</h2>
+            <p>Already have an account? Sign in by clicking below</p>
+            <button class="btn" onclick="toggleForm()">SIGN IN</button>
+        </div>
+        <div class="right" id="right">
+            <h2 id="form-title">Create Account</h2>
+            <form id="auth-form">
+                <!-- 👇 New TAB Buttons -->
+                <div class="form-group tabs">
+                    <button type="button" class="tab-btn active" onclick="switchTab('customer')">Customer</button>
+                    <button type="button" class="tab-btn" onclick="switchTab('business')">Business Owner</button>
+                </div>
+            
+                <div id="signup-fields">
+                    <div class="form-group">
+                        <input type="text" id="name" placeholder="Name">
+                    </div>
+            
+                    <!-- 👇 Business-only fields -->
+                    <div class="form-group business-only" style="display:none;">
+                        <input type="text" id="business-name" placeholder="Business Name">
+                    </div>
+                    <div class="form-group business-only" style="display:none;">
+                        <input type="text" id="business-address" placeholder="Business Address">
+                    </div>
+                    <div class="form-group business-only" style="display:none;">
+                        <select id="business-type">
+                            <option value="">Select Business Type</option>
+                            <option>Home Decor</option>
+                            <option>Handmade Gifts</option>
+                            <option>Art</option>
+                            <option>Clothing</option>
+                            <option>Jewelry</option>
+                            <option>Others</option>
+                        </select>
+                    </div>
+                </div>
+            
+                <div class="form-group">
+                    <input type="email" id="email" placeholder="Email" onblur="validateEmail()">
+                    <p class="otp-message" id="email-otp">OTP sent to your email</p>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="phone" placeholder="Phone Number" onblur="validatePhone()">
+                    <p class="otp-message" id="phone-otp">OTP sent to your mobile</p>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" placeholder="Password">
+                </div>
+                <button class="btn" type="button" id="submit-btn" onclick="submitForm()">SIGN UP</button>
+                <p class="toggle-text" id="toggle-text" onclick="toggleForm()">Already have an account? Sign In</p>
+            </form>
+            
+        </div>
+    </div>
+
+    <script>
+        let currentTab = 'customer';
+
+function switchTab(tab) {
+    currentTab = tab;
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+
+    document.querySelectorAll('.business-only').forEach(el => {
+        el.style.display = tab === 'business' ? 'block' : 'none';
+    });
+}
+
+function toggleForm() {
+    const container = document.getElementById("container");
+    const formTitle = document.getElementById("form-title");
+    const signupFields = document.getElementById("signup-fields");
+    const submitBtn = document.getElementById("submit-btn");
+    const toggleText = document.getElementById("toggle-text");
+    const leftPanel = document.getElementById("left");
+
+    container.classList.toggle("signup-active");
+
+    if (container.classList.contains("signup-active")) {
+        // Switch to Sign In
+        formTitle.innerText = "Sign In";
+        signupFields.style.display = "none";
+        submitBtn.innerText = "LOGIN";
+        toggleText.innerText = "Don't have an account? Sign Up";
+        leftPanel.innerHTML = `
+            <h2>Welcome!</h2>
+            <p>Don't have an account? Sign up by clicking below</p>
+            <button class="btn" onclick="toggleForm()">SIGN UP</button>
+        `;
+    } else {
+        // Switch to Sign Up
+        formTitle.innerText = "Create Account";
+        signupFields.style.display = "block";
+        submitBtn.innerText = "SIGN UP";
+        toggleText.innerText = "Already have an account? Sign In";
+        leftPanel.innerHTML = `
+            <h2>Welcome Back!</h2>
+            <p>Already have an account? Sign in by clicking below</p>
+            <button class="btn" onclick="toggleForm()">SIGN IN</button>
+        `;
+
+        // Reset radio and hide business fields
+        document.querySelector('input[value="customer"]').checked = true;
+        currentTab = 'customer';
+        toggleUserType();
+    }
+
+    // Reset form fields
+    document.querySelector("form").reset();
+}
+
+function toggleUserType() {
+    const isBusiness = document.querySelector('input[name="userType"]:checked').value === 'business';
+    const businessFields = document.querySelectorAll('.business-only');
+    businessFields.forEach(field => {
+        field.style.display = isBusiness ? 'block' : 'none';
+    });
+}
+
+function validateEmail() {
+    const email = document.getElementById("email").value;
+    const emailOtp = document.getElementById("email-otp");
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!emailRegex.test(email)) {
+        alert("Please enter a valid email address");
+        emailOtp.style.display = "none";
+        return false;
+    } else {
+        if (!document.getElementById("container").classList.contains("signup-active")) {
+            emailOtp.style.display = "block";
+        }
+        return true;
+    }
+}
+
+function validatePhone() {
+    const phone = document.getElementById("phone").value;
+    const phoneOtp = document.getElementById("phone-otp");
+    const phoneRegex = /^[0-9]{10}$/;
+
+    if (!phoneRegex.test(phone)) {
+        alert("Please enter a valid 10-digit phone number");
+        phoneOtp.style.display = "none";
+        return false;
+    } else {
+        if (!document.getElementById("container").classList.contains("signup-active")) {
+            phoneOtp.style.display = "block";
+        }
+        return true;
+    }
+}
+
+function submitForm() {
+    const container = document.getElementById("container");
+    const isSignup = !container.classList.contains("signup-active");
+    const mode = isSignup ? 'signup' : 'login';
+    const type = currentTab;
+
+    if (isSignup && (!validateEmail() || !validatePhone())) return;
+
+    const payload = {
+        userType: type,
+        name: document.getElementById("name")?.value,
+        email: document.getElementById("email")?.value,
+        phone: document.getElementById("phone")?.value,
+        password: document.getElementById("password")?.value,
+        businessName: document.getElementById("business-name")?.value || "",
+        businessAddress: document.getElementById("business-address")?.value || "",
+        businessType: document.getElementById("business-type")?.value || ""
+    };
+
+    const route = `https://smallbiz-backend.onrender.com/${mode}`;  // ✅ Correct route
+
+    fetch(route, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert(data.message);
+        if (data.message.includes("success")) {
+            if (mode === 'signup') {
+                toggleForm();  // switch to login form
+            } else {
+                window.location.href = "index.html"; // login success
+            }
+        }
+    })
+    .catch(err => {
+        console.error("Error during form submission:", err);
+        alert("Something went wrong! Please try again.");
+    });
+}
+
+</script>
+</body>
+</html>

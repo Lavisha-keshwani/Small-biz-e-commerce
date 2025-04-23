@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shop | DreamCart</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* body
+{
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+} */
+#containerFooter
+{
+    width: 100%;
+    background-color: rgb(29, 29, 29);
+    color: white;
+    letter-spacing: 1px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    text-transform: uppercase;
+    font-size: 15px;
+    padding: 15px 300px;
+    box-sizing: border-box;
+}
+#containerFooter h3:hover, #containerFooter p:hover
+{
+    color: lightslategray;
+    cursor: pointer;
+}
+#webFooter
+{
+    padding-top: 30px;
+    font-size: 12px;
+}
+#credit 
+{
+    width: 100%;
+    margin: auto;
+    padding: 20px 0;
+    text-align: center;
+    background-color: rgb(29, 29, 29);
+    color: white;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+#credit a
+{
+    color: white;
+    text-decoration: none;
+    position: relative;
+}
+#credit a::after
+{
+content: "";
+background: white;
+mix-blend-mode: exclusion;
+width: calc(100% + 18px);
+height: 0;
+position: absolute;
+bottom: -4px;
+left: -10px;
+transition: all .3s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+#credit a:hover::after
+{
+    height: calc(100% + 8px)
+}
+
+/* ----------------------------- MEDIA QUERY --------------------------- */
+
+@media(max-width: 1350px)
+{
+    #containerFooter
+    {
+        padding: 15px 200px;
+    }
+}
+@media(max-width: 1166px)
+{
+    #containerFooter
+    {
+        padding: 15px 100px;
+    }
+}
+@media(max-width: 950px)
+{
+    #containerFooter
+    {
+        padding: 15px 50px;
+    }
+}
+@media(max-width: 850px)
+{
+    #containerFooter
+    {
+        font-size: 13px;
+    }
+    #webFooter
+    {
+        font-size: 10px;
+    }
+}
+@media(max-width: 750px)
+{
+    #containerFooter
+    {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        padding: 15px 100px;
+    }
+    #webFooter
+    {
+        padding: 15px 20px;
+    }
+}
+@media(max-width: 540px)
+{
+    #containerFooter
+    {
+        padding: 0 25px;
+    }
+}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🌿 Eco Gifting</h1>
+    <nav>
+      <a href="cart.html">🛒 Cart</a>
+      <a href="wishlist.html">❤ Wishlist</a>
+    </nav>
+  </header>
+
+  <main class="product-grid">
+    <!-- 10 Product Cards -->
+    <script>
+      const products = [
+      { name: 'Tea Sampler', price: 899, image: 'tea-sampler.jpg' },
+  { name: 'Bamboo Thermos', price: 1699, image: 'bamboo-thermos.jpg' },
+  { name: 'Seed Calendar', price: 1299, image: 'seed-calender.jpg' },
+  { name: 'Festive Combo', price: 1199, image: 'clay-diya-oil.jpg' },
+  { name: 'Coconut Bowls', price: 999, image: 'cocunut-bowls.jpg' },
+  { name: 'Jute Gift Bag', price: 699, image: 'jute-gift-bag.webp' },
+  { name: 'Neem Wood Comb', price: 449, image: 'neem-comb.jpg' },
+  { name: 'Spa Hamper', price: 1999, image: 'eco-spa-hamper.webp' },
+  { name: 'Cork Wallet', price: 1499, image: 'cork-wallet.jpg' },
+  { name: 'Plantable Cards', price: 499, image: 'plantable-cards.jpg' },
+];
+      products.forEach(product => {
+        document.write(`
+          <div class="product-card" data-name="${product.name}" data-price="${product.price}">
+            <img src="${product.image}" alt="${product.name}"/>
+            <h3>${product.name}</h3>
+            <p><s>₹${product.price + 300}</s> <strong>₹${product.price}</strong></p>
+            <button onclick="addToCart('${product.name}', ${product.price})">🛒 Add to Cart</button>
+            <button class="wishlist-btn" onclick="addToWishlist('${product.name}')">💖 Wishlist</button>
+          </div>
+        `);
+      });
+    </script>
+  </main>
+
+  <footer>
+    <section>
+      <div id="containerFooter">
+        <div id="webFooter">
+          <h3>One Stop Platform for Small Biz</h3>
+          <p>Gifting Items</p>
+          <p>Hand Stiched Clothes</p>
+          <p>Crochet Gifts</p>
+          <p>Embroidered Jewellary</p>
+        </div>
+        <div id="webFooter">
+          <h3>Helpful Link</h3>
+          <a href="index.html">Home</a><br><br>
+          <a href="index.html">About</a><br><br>
+          <a href="index.html">Contact Us</a><br><br>
+        </div>
+        <div id="webFooter">
+          <h3>PARTNERS</h3>
+          <p>Bamboo Bazar</p>
+          <p>VK Studio</p>
+          <p>Makhan Bhog</p>
+          <p>BeU Salon</p>
+          <p>+ many more</p>
+        </div>
+        <div id="webFooter">
+          <h3>ADDRESS</h3>
+          <p>Central Avenue</p>
+          <p>A-407 273001</p>
+          <p>Delhi</p>
+          <p>India</p>
+        </div>
+      </div>
+      <div id="credit">
+        <a href="www.smallbiz.com">© Small Biz</a>
+        &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <a href="project_frontend.html" target="_blank">LAVISHA & HARSHITA</a>
+      </div>
+    </section>
+  </footer>
+
+  <script>
+    function addToCart(name, price) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const existing = cart.find(item => item.name === name);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({ name, price, quantity: 1 });
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert("Added to cart! 🛒");
+    }
+
+    function addToWishlist(name) {
+  const product = products.find(item => item.name === name);
+  if (!product) {
+    alert("Product not found!");
+    return;
+  }
+  let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+  if (!wishlist.some(item => item.name === product.name)) {
+    wishlist.push({
+      name: product.name,
+      price: product.price,
+      quantity: 1,
+    });
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+    alert("Added to wishlist! ❤");
+  } else {
+    alert("Item already in wishlist!");
+  }
+}
+
+  </script>
+</body>
+</html>

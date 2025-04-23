@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Order Confirmed</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #fdf6f0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow: hidden;
+    }
+
+    .container {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #333;
+      position: relative;
+    }
+
+    /* ✨ Animated SVG Tick */
+    .tick-container {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 20px;
+    }
+
+    .tick-circle {
+      fill: none;
+      stroke: #4BB543;
+      stroke-width: 6;
+      stroke-dasharray: 300;
+      stroke-dashoffset: 300;
+      animation: drawCircle 1s ease forwards;
+    }
+
+    .tick-mark {
+      fill: none;
+      stroke: #4BB543;
+      stroke-width: 6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 50;
+      stroke-dashoffset: 50;
+      animation: drawTick 0.5s ease forwards 1s;
+    }
+
+    @keyframes drawCircle {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes drawTick {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin: 1rem 0 0.5rem;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: #666;
+    }
+
+    .btn {
+      margin-top: 2rem;
+      background-color: #ff6f61;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #e85c4c;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .message {
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="confetti-canvas"></canvas>
+
+  <div class="container">
+    <!-- ✅ SVG Tick Animation -->
+    <div class="tick-container">
+      <svg viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="45" class="tick-circle" />
+        <polyline points="30,55 45,70 70,40" class="tick-mark" />
+      </svg>
+    </div>
+
+    <div class="message">
+      <h1>Order Confirmed!</h1>
+      <p>Yay! Your goodies are on the way 🛍️💌</p>
+      <button class="btn" onclick="window.location.href='choosebusiness.html'">Back to Shop</button>
+    </div>
+  </div>
+
+  <script>
+    // 🎉 Confetti Setup
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const confetti = [];
+    for (let i = 0; i < 150; i++) {
+      confetti.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        r: Math.random() * 6 + 4,
+        d: Math.random() * 40 + 10,
+        color: `hsl(${Math.random() * 360}, 70%, 60%)`,
+        tilt: Math.random() * 10 - 10,
+        tiltAngleIncremental: Math.random() * 0.1 + 0.05,
+        tiltAngle: 0
+      });
+    }
+
+    function drawConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      confetti.forEach(c => {
+        ctx.beginPath();
+        ctx.lineWidth = c.r;
+        ctx.strokeStyle = c.color;
+        ctx.moveTo(c.x + c.tilt + c.r / 2, c.y);
+        ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r / 2);
+        ctx.stroke();
+      });
+      updateConfetti();
+    }
+
+    function updateConfetti() {
+      confetti.forEach(c => {
+        c.tiltAngle += c.tiltAngleIncremental;
+        c.y += (Math.cos(c.d) + 3 + c.r / 2) / 2;
+        c.x += Math.sin(c.d);
+        c.tilt = Math.sin(c.tiltAngle - c.d / 3) * 15;
+
+        if (c.y > canvas.height) {
+          c.y = -10;
+          c.x = Math.random() * canvas.width;
+        }
+      });
+    }
+
+    function loop() {
+      drawConfetti();
+      requestAnimationFrame(loop);
+    }
+
+    loop();
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+
+</body>
+</html>

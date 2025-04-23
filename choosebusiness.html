@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Select a Business</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #fff8f3, #ffeae0);
+      color: #333;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem;
+      background: linear-gradient(90deg, #ffcab1, #ffe2dc);
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #5b3a29;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    .business-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 2rem;
+      gap: 2rem;
+    }
+
+    .business-card {
+      background: #ffffff;
+      border: 3px solid #f7b6a0;
+      border-radius: 20px;
+      padding: 1.5rem;
+      width: 280px;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: #6b3e36;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+      text-align: center;
+      position: relative;
+    }
+
+    .business-card:hover {
+      background: #fff0e6;
+      transform: scale(1.05);
+      box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+    }
+
+    .business-card h3 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      color: #5b2c2c;
+    }
+
+    .business-card p {
+      font-size: 1rem;
+      margin-top: 0.5rem;
+      color: #704747;
+    }
+
+    .modal, .categories-page {
+      display: none;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.4);
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    .modal-content {
+      background: #fffaf7;
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+
+    .modal-content h2 {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      color: #4b2c2c;
+    }
+
+    .modal-content button {
+      background: #ff6f61;
+      color: #fff;
+      border: none;
+      padding: 0.7rem 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 1rem;
+      transition: background 0.3s;
+    }
+
+    .modal-content button:hover {
+      background: #e15b4d;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        font-size: 1.8rem;
+      }
+
+      .business-card {
+        width: 90%;
+        font-size: 1rem;
+        padding: 1.5rem;
+      }
+
+      .modal-content {
+        max-width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>🛒 Choose a Business to Shop From</header>
+
+  <div class="business-list" id="businessList">
+    <!-- Dynamically injected by JS -->
+  </div>
+
+  <div class="modal" id="questionModal">
+    <div class="modal-content">
+      <h2>🤔 Quick Question!</h2>
+      <p>Are you shopping for a 🎁 gift, 🏠 home, or 👕 personal use?</p>
+      <button onclick="goToCategories()">Let's Go!</button>
+    </div>
+  </div>
+
+  <script>
+    const businesses = [
+  { name: "Artisan Avenue", icon: "🧵", description: "Handcrafted textiles with love from rural India.", link: "shopping_weavewrap.html" },
+  { name: "Bamboo Bazaar", icon: "🎍", description: "Eco-friendly bamboo décor & daily use products.", link: "shopping_bamboo.html" },
+  { name: "Tradition Threads", icon: "👗", description: "Authentic traditional wear stitched by artisans.", link: "shopping_weavewrap.html" },
+  { name: "Paint & Clay Co.", icon: "🎨", description: "Earthy pottery & vibrant paintings from villages.", link: "shopping_clay.html" },
+  { name: "Eco Gifting", icon: "🌿", description: "Sustainable & personalized gifts for all occasions.", link: "shopping_ecogifting.html" },
+  { name: "Namaste Home", icon: "🏠", description: "Minimalist home décor with an Indian soul.", link: "shopping_namastehome.html" },
+  { name: "Herbal Bloom", icon: "🌸", description: "Organic soaps, skincare & wellness kits.", link: "shopping_herbal.html" },
+  { name: "Rustic Touch", icon: "🪵", description: "Raw wooden furniture with a rustic finish.", link: "shopping_weavewrap.html" },
+  { name: "Tribal Tones", icon: "🪘", description: "Musical instruments & accessories by tribal artists.", link: "shopping_weavewrap.html" },
+  { name: "Weave & Wrap", icon: "🧣", description: "Natural fiber scarves, shawls & wraps.", link: "shopping_weavewrap.html" },
+  { name: "Thread & Tale", icon: "📖", description: "Storytelling through embroidery & fabric.", link: "shopping_weavewrap.html" },
+  { name: "Desi Delight", icon: "🍘", description: "Snacks & pickles from local women entrepreneurs.", link: "shopping_weavewrap.html" },
+  { name: "Aangan Lights", icon: "💡", description: "Handmade lamps & lanterns to brighten your space.", link: "shopping_weavewrap.html" },
+  { name: "Chikankari Charm", icon: "🪡", description: "Elegance redefined with Lucknowi chikankari.", link: "shopping_weavewrap.html" },
+  { name: "Boho Basket", icon: "🧺", description: "Jute baskets & quirky upcycled art pieces.", link: "shopping_weavewrap.html" },
+  { name: "Soul Stitch", icon: "🧵", description: "Clothes stitched by heart for a soulful you.", link: "shopping_weavewrap.html" },
+  { name: "Kalamkari Kart", icon: "🖌", description: "The charm of Kalamkari in bags, bedsheets & more.", link: "shopping_weavewrap.html" },
+  { name: "Mitti Cool", icon: "🏺", description: "Clay cookware for traditional cooking & health.", link: "shopping_weavewrap.html" },
+  { name: "Joy of Threads", icon: "🧶", description: "Crochet, knitting & woolen warmth handcrafted.", link: "shopping_weavewrap.html" },
+  { name: "Varnika Vibes", icon: "🎭", description: "Cultural crafts with colors that speak.", link: "shopping_weavewrap.html" }
+];
+
+
+    const businessList = document.getElementById("businessList");
+    const modal = document.getElementById("questionModal");
+    let selectedBusiness = "";
+    let selectedLink = "";
+
+    businesses.forEach(biz => {
+      const div = document.createElement("div");
+      div.className = "business-card";
+      div.innerHTML = `
+        <h3>${biz.icon} ${biz.name}</h3>
+        <p>${biz.description}</p>
+      `;
+      div.onclick = () => {
+        selectedBusiness = biz.name;
+        selectedLink = biz.link;
+        modal.style.display = "flex";
+      };
+      businessList.appendChild(div);
+    });
+
+    function goToCategories() {
+  modal.style.display = "none";
+  if (selectedLink) {
+    window.open(selectedLink, "_blank"); // open in new tab
+  }
+}
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - SmallBiz</title>
+    <style>
+       /* General Styling */
+body {
+    background-color: #ffeae0; /* Bottle Green */
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure full page height */
+}
+
+/* Navbar */
+.navbar, .header {
+    background-color: #ffcab1;
+    color: #5b3a29;
+    padding: 15px 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.navbar a {
+    color: #5b3a29;
+    text-decoration: none;
+    padding: 10px 15px;
+}
+
+.navbar a:hover {
+    background-color:#d4edda;
+    border-radius: 5px;
+}
+
+
+/* FAQ Container */
+.faq-container {
+    min-height: 500px; /* Adjust this value as needed */
+    max-width: 600px; /* Keep it responsive */
+    margin: auto;
+    background: #ffcab1;
+    border-radius: 8px;
+    padding: 20px;
+box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    overflow: hidden; /* Prevents shifting */
+}
+
+.faq-item {
+    border-bottom: 1px solid #4a7c4a;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.faq-answer {
+    display: none;
+    padding: 10px;
+    background: #ffcab1;
+    border-radius: 5px;
+}
+
+.faq-item.active {
+    background: #e6f4e6; /* Light green highlight */
+}
+
+
+.faq-heading {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    color: #004d00;
+}
+.faq-question {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    background: #6c4531;
+    border: none;
+    color: #ffcab1;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+    transition: background 0.3s;
+}
+
+.faq-question:hover {
+    background: #71480f; /* Light green hover effect */
+}
+
+.faq-answer {
+    padding: 15px;
+    background: #f9f9f9;
+    display: none;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Footer - Now Fixed at Bottom */
+.footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #ffcab1;
+    color: #4d2300;
+    font-size: 14px;
+    margin-top: auto; /* Pushes footer to the bottom */
+}
+
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="explore.html">Explore</a>
+        <a href="faq.html">FAQ</a>
+    </div>
+
+
+    <!-- FAQ Section -->
+    <div class="faq-container">
+        <h2 class="faq-heading">FAQ</h2>
+
+        <div class="faq-item">
+            <button class="faq-question">What is SmallBiz?</button>
+            <div class="faq-answer">
+                SmallBiz is an online platform designed to help small businesses showcase and sell their products, connecting them with potential buyers.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">How can I register as a seller?</button>
+            <div class="faq-answer">
+                You can register as a seller by clicking on the "Get Started" button on our homepage, providing your business details, and verifying your email and phone number.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">Is there a fee to list my products?</button>
+            <div class="faq-answer">
+                No, listing products on SmallBiz is completely free! However, we offer premium features for better visibility and marketing.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">How do customers find my business?</button>
+            <div class="faq-answer">
+                Customers can search for businesses using filters such as category, location, price range, and popularity rankings.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">Is online payment available?</button>
+            <div class="faq-answer">
+                Currently, we support cash-on-delivery and direct bank transfers. We plan to integrate online payments in future updates.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">Can I edit my business details after registering?</button>
+            <div class="faq-answer">
+                Yes, you can edit your business details, update product listings, and manage your store from your seller dashboard.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">What if I forget my login details?</button>
+            <div class="faq-answer">
+                If you forget your login credentials, you can reset your password using your registered email or phone number.
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        &copy; 2025 SmallBiz | All rights reserved.
+    </div>
+
+    <script>
+        // Toggle FAQ Answer
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const answer = button.nextElementSibling;
+                const isOpen = answer.style.display === "block";
+
+                // Close all other answers
+                document.querySelectorAll('.faq-answer').forEach(item => item.style.display = "none");
+
+                // Toggle current answer
+                answer.style.display = isOpen ? "none" : "block";
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+    const faqItems = document.querySelectorAll(".faq-item");
+
+    faqItems.forEach(item => {
+        item.addEventListener("click", function() {
+            // Toggle active class
+            this.classList.toggle("active");
+            
+            // Show or hide the answer
+            let answer = this.nextElementSibling;
+            if (answer.style.display === "block") {
+                answer.style.display = "none";
+            } else {
+                answer.style.display = "block";
+            }
+        });
+    });
+});
+
+    </script>
+
+</body>
+</html>

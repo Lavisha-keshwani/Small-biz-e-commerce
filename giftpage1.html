@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Crafted Treasures</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #fff;
+      color: #333;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #ccc;
+      background-color: #fff;
+    }
+
+    nav h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    nav .nav-links a {
+      text-decoration: none;
+      color: #444;
+      margin-left: 1.5rem;
+      font-weight: 500;
+    }
+
+    .container {
+      padding: 2rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .card {
+      background-color: #f5f5f5;
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .card h2 {
+      font-size: 1.2rem;
+      margin-top: 0.7rem;
+      color: #333;
+    }
+
+    .price {
+      margin: 0.5rem 0;
+    }
+
+    .price del {
+      color: #888;
+      margin-right: 0.5rem;
+    }
+
+    .price span {
+      font-weight: bold;
+      color: #e63946;
+    }
+
+    .card-buttons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.5rem;
+    }
+
+    .card-buttons button {
+      padding: 0.4rem 0.8rem;
+      border: none;
+      background-color: #e63946;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .icons {
+      font-size: 1.2rem;
+      color: #e63946;
+      cursor: pointer;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .pagination button {
+      background-color: #e63946;
+      color: #fff;
+      border: none;
+      margin: 0 5px;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .pagination button.active {
+      background-color: #555;
+    }
+
+    @media screen and (max-width: 1024px) {
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      nav h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav>
+    <h1>Crafted Treasures</h1>
+    <div class="nav-links">
+      <a href="#wishlist"><i class="fas fa-heart"></i> Wishlist</a>
+      <a href="#cart"><i class="fas fa-shopping-cart"></i> Cart</a>
+    </div>
+  </nav>
+
+  <!-- Product Grid -->
+  <div class="container">
+    <div class="grid" id="productGrid"></div>
+
+    <!-- Pagination Buttons -->
+    <div class="pagination">
+      <button onclick="showPage(1)" class="active" id="btn1">1</button>
+      <button onclick="showPage(2)" id="btn2">2</button>
+      <button onclick="showPage(3)" id="btn3">3</button>
+    </div>
+  </div>
+
+  <script>
+    const products = [
+      { id: 1, name: "Handmade Necklace", oldPrice: "₹499", price: "₹399", image: "https://images.unsplash.com/photo-1618354691373-d8517b3aff6b" },
+      { id: 2, name: "Painted Pot", oldPrice: "₹399", price: "₹299", image: "https://images.unsplash.com/photo-1583337130417-3346a1f85df4" },
+      { id: 3, name: "Wooden Carving", oldPrice: "₹999", price: "₹899", image: "https://images.unsplash.com/photo-1616627984234-595d963b2100" },
+      { id: 4, name: "Woolen Scarf", oldPrice: "₹349", price: "₹249", image: "https://images.unsplash.com/photo-1618354692051-4a8e91a23199" },
+      { id: 5, name: "Art Canvas", oldPrice: "₹1099", price: "₹999", image: "https://images.unsplash.com/photo-1616627586214-c6b79e1a4ae1" },
+      { id: 6, name: "Bamboo Lamp", oldPrice: "₹799", price: "₹649", image: "https://images.unsplash.com/photo-1606811841976-e9f44d801dc2" },
+      { id: 7, name: "Handwoven Bag", oldPrice: "₹699", price: "₹549", image: "https://images.unsplash.com/photo-1618354692137-f11966e379f6" },
+      { id: 8, name: "Terracotta Figurine", oldPrice: "₹899", price: "₹759", image: "https://images.unsplash.com/photo-1572188868777-324f3e4b97c1" },
+      { id: 9, name: "Decorative Mirror", oldPrice: "₹1499", price: "₹1299", image: "https://images.unsplash.com/photo-1600891964599-f61ba0e24092" },
+      { id: 10, name: "Traditional Painting", oldPrice: "₹2199", price: "₹1899", image: "https://images.unsplash.com/photo-1618354691649-803e18120df0" }
+    ];
+
+    let currentPage = 1;
+    const itemsPerPage = 3;
+
+    function showPage(page) {
+      currentPage = page;
+      const grid = document.getElementById("productGrid");
+      grid.innerHTML = "";
+
+      const start = (page - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      const currentItems = products.slice(start, end);
+
+      currentItems.forEach(product => {
+        const card = document.createElement('div');
+        card.classList.add('card');
+        card.innerHTML = `
+          <img src="${product.image}" alt="${product.name}">
+          <h2>${product.name}</h2>
+          <div class="price"><del>${product.oldPrice}</del><span>${product.price}</span></div>
+          <div class="card-buttons">
+            <button>Add to Cart</button>
+            <i class="far fa-heart icons" title="Add to Wishlist"></i>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      document.querySelectorAll('.pagination button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(`btn${page}`).classList.add('active');
+    }
+
+    // Initialize page
+    showPage(currentPage);
+  </script>
+
+</body>
+</html>

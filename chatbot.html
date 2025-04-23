@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>24x7 Assistant Chatbot</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .chatbot-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #2a9d8f;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 30px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    .chatbot-container {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      width: 300px;
+      max-height: 400px;
+      background: white;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 999;
+    }
+
+    .chatbot-header {
+      background-color: #2a9d8f;
+      color: white;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .chatbot-messages {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      background: #000000;
+    }
+
+    .message {
+      margin: 8px 0;
+      padding: 8px 12px;
+      border-radius: 12px;
+      max-width: 80%;
+      font-size: 14px;
+      line-height: 1.4;
+      color: black;
+    }
+
+    .user-message {
+      background-color: #094039;
+      align-self: flex-end;
+    }
+
+    .bot-message {
+      background-color: #2d0505;
+      align-self: flex-start;
+    }
+
+    .chatbot-input {
+      display: flex;
+      border-top: 1px solid #ccc;
+    }
+
+    .chatbot-input input {
+      flex: 1;
+      border: none;
+      padding: 10px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .chatbot-input button {
+      background-color: #2a9d8f;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Floating Button -->
+<button class="chatbot-toggle" onclick="toggleChat()">💬</button>
+
+<!-- Chatbot Container -->
+<div class="chatbot-container" id="chatbot">
+  <div class="chatbot-header">Assistant Chatbot 🤖</div>
+  <div class="chatbot-messages" id="chatMessages"></div>
+  <div class="chatbot-input">
+    <input type="text" id="userInput" placeholder="Ask me anything..." />
+    <button onclick="sendMessage()">➤</button>
+  </div>
+</div>
+
+<script>
+  const chatbot = document.getElementById("chatbot");
+  const chatMessages = document.getElementById("chatMessages");
+
+  function toggleChat() {
+    chatbot.style.display = chatbot.style.display === "flex" ? "none" : "flex";
+  }
+
+  function sendMessage() {
+    const input = document.getElementById("userInput");
+    const userText = input.value.trim();
+
+    if (userText === "") return;
+
+    // Display user's message
+    appendMessage(userText, "user-message");
+
+    // Simulate bot response
+    setTimeout(() => {
+      const botReply = getBotResponse(userText);
+      appendMessage(botReply, "bot-message");
+    }, 500);
+
+    input.value = "";
+  }
+
+  function appendMessage(text, className) {
+    const msg = document.createElement("div");
+    msg.className = `message ${className}`;
+    msg.innerText = text;
+    chatMessages.appendChild(msg);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function getBotResponse(message) {
+    // Dummy logic (you can integrate real logic here or connect to Dialogflow/OpenAI)
+    message = message.toLowerCase();
+    if (message.includes("hello") || message.includes("hi")) {
+      return "Hi there! How can I assist you today?";
+    } else if (message.includes("hours") || message.includes("timing")) {
+      return "We are open 24×7 online! Feel free to reach out anytime.";
+    } else if (message.includes("contact")) {
+      return "You can reach us at help@yourdomain.com.";
+    } else {
+      return "I'm here to help! Could you please elaborate?";
+    }
+  }
+</script>
+
+</body>
+</html>

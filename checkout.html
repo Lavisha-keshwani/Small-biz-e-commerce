@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DreamCart - Checkout</title>
+  <link rel="stylesheet" href="check.css"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background-image: url('https://images.unsplash.com/photo-1556740749-887f6717d7e4?fit=crop&w=1500&q=80');
+      background-size: cover;
+      background-attachment: fixed;
+      color: #333;
+    }
+    .container {
+      background-color: rgba(255, 255, 255, 0.95);
+      margin: 50px auto;
+      max-width: 1000px;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    .breadcrumb {
+      display: flex;
+      justify-content: space-around;
+      list-style: none;
+      margin-bottom: 30px;
+    }
+    .breadcrumb li {
+      padding: 10px 20px;
+      border-radius: 20px;
+      background-color: #f0f0f0;
+      color: #888;
+      cursor: pointer;
+    }
+    .breadcrumb li.active {
+      background-color: #ff4d6d;
+      color: white;
+      font-weight: bold;
+    }
+    .checkout-section { display: none; }
+    .checkout-section.active { display: flex; flex-wrap: wrap; gap: 20px; }
+    .cart-items, .address-form, .payment-form { flex: 2; }
+    .summary {
+      flex: 1;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .item-card {
+      display: flex;
+      background: #fff;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    .item-card img {
+      width: 120px;
+      border-radius: 10px;
+      margin-right: 20px;
+    }
+    .price { margin: 5px 0; font-size: 18px; }
+    .strike { text-decoration: line-through; color: #888; margin: 0 10px; }
+    .discount { color: #ff4d6d; }
+    .summary-item { display: flex; justify-content: space-between; margin: 10px 0; }
+    .green { color: green; }
+    .total { font-size: 18px; font-weight: bold; margin-top: 20px; }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 15px;
+      background-color: #ff4d6d;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover { background-color: #e63950; }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .radio-group label {
+      display: block;
+      margin: 8px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <nav>
+        <ul class="breadcrumb">
+          <li class="active" onclick="showSection('bag')">Bag</li>
+          <li onclick="showSection('address')">Address</li>
+          <li onclick="showSection('payment')">Payment</li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- BAG SECTION -->
+    <main id="bag" class="checkout-section active">
+      <section class="cart-items" id="cartItemsContainer">
+        <h2>Your Bag 🛍</h2>
+      </section>
+      <section class="summary">
+        <h2>Price Details 💰</h2>
+        <div class="summary-item"><span>Total MRP</span><span id="totalMRP">₹0</span></div>
+        <div class="summary-item"><span>Discount</span><span class="green" id="discount">-₹0</span></div>
+        <div class="summary-item"><span>Platform Fee</span><span>₹20</span></div>
+        <div class="summary-item"><span>Shipping</span><span class="green">FREE</span></div>
+        <div class="summary-item total"><strong>Total</strong><strong id="finalTotal">₹0</strong></div>
+        <button onclick="showSection('address')">Continue to Address</button>
+      </section>
+    </main>
+
+    <!-- ADDRESS SECTION -->
+    <main id="address" class="checkout-section">
+      <section class="address-form">
+        <h2>Shipping Details 📦</h2>
+        <form id="addressForm" onsubmit="event.preventDefault(); showSection('payment');">
+          <input type="text" placeholder="Full Name" value="Lavisha Keshwani" required />
+          <input type="text" placeholder="Mobile Number" value="9876543210" required />
+          <input type="text" placeholder="Address Line 1" value="123, Rainbow Apartments" required />
+          <input type="text" placeholder="Address Line 2 (optional)" value="Near Sunrise Park" />
+          <input type="text" placeholder="City" value="Chennai" required />
+          <input type="text" placeholder="State" value="Tamil Nadu" required />
+          <input type="text" placeholder="Pin Code" value="600123" required />
+          <input type="text" placeholder="Landmark (optional)" value="Next to Coffee Day" />
+          <input type="text" placeholder="Alternate Phone Number (optional)" value="9876501234" />
+          <button type="submit">Continue to Payment</button>
+        </form>
+      </section>
+    </main>
+
+    <!-- PAYMENT SECTION -->
+    <main id="payment" class="checkout-section">
+      <section class="payment-form">
+        <h2>Payment Method 💳</h2>
+        <form id="paymentForm">
+          <label><input type="radio" name="paymentMethod" value="cod" required /> Cash on Delivery (COD)</label><br />
+          <label><input type="radio" name="paymentMethod" value="upi" required /> UPI</label><br />
+          <label><input type="radio" name="paymentMethod" value="card" required /> Credit/Debit Card</label>
+
+          <div id="paymentDetails" style="margin-top: 20px;"></div>
+          <button type="submit" id="placeOrderBtn" style="display: none; background-color: green; margin-top: 10px;">Place Order</button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    function showSection(sectionId) {
+      document.querySelectorAll('.checkout-section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(sectionId).classList.add('active');
+
+      const sections = { bag: 0, address: 1, payment: 2 };
+      const listItems = document.querySelectorAll('.breadcrumb li');
+      listItems.forEach((li, index) => {
+        li.classList.toggle('active', index === sections[sectionId]);
+      });
+    }
+
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartItemsContainer = document.getElementById('cartItemsContainer');
+    const totalMRP = document.getElementById('totalMRP');
+    const discount = document.getElementById('discount');
+    const finalTotal = document.getElementById('finalTotal');
+
+    let total = 0, discountAmount = 0, platformFee = 20;
+
+    if (cart.length === 0) {
+      cartItemsContainer.innerHTML += "<p>Your cart is empty!</p>";
+    }
+
+    cart.forEach(item => {
+      const div = document.createElement('div');
+      div.classList.add('item-card');
+      div.innerHTML = `
+        <div class="item-info">
+          <h3>${item.name}</h3>
+          <p class="price">₹${item.price} × ${item.quantity}</p>
+          ${item.originalPrice ? `<p class="strike">₹${item.originalPrice}</p>` : ''}
+          <p class="discount">${item.discount ? `₹${item.discount} OFF` : 'Not applicable for discount'}</p>
+        </div>`;
+      cartItemsContainer.appendChild(div);
+      total += item.price * item.quantity;
+      discountAmount += (item.discount || 0) * item.quantity;
+    });
+
+    totalMRP.textContent = `₹${total}`;
+    discount.textContent = `-₹${discountAmount}`;
+    finalTotal.textContent = `₹${total - discountAmount + platformFee}`;
+
+    const paymentDetails = document.getElementById('paymentDetails');
+    const placeOrderBtn = document.getElementById('placeOrderBtn');
+
+    document.querySelectorAll('input[name="paymentMethod"]').forEach((input) => {
+      input.addEventListener('change', () => {
+        const selected = input.value;
+        let html = '';
+
+        if (selected === 'upi') {
+          html = `
+            <label>Enter your UPI ID:</label>
+            <input type="text" placeholder="example@bank" required />
+          `;
+        } else if (selected === 'card') {
+          html = `
+            <label>Card Number:</label>
+            <input type="text" placeholder="1234 5678 9012 3456" required />
+            <label>Expiry Date:</label>
+            <input type="month" required />
+            <label>CVV:</label>
+            <input type="password" placeholder="123" required />
+          `;
+        }
+
+        paymentDetails.innerHTML = html;
+        placeOrderBtn.style.display = "block";
+      });
+    });
+
+    document.getElementById('paymentForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+
+      fetch('https://smallbiz-backend.onrender.com/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ cartItems })
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert('Order placed successfully!');
+        localStorage.removeItem('cart');
+        window.location.href = 'orderconfirm.html';
+      })
+      .catch(error => {
+        console.error('Checkout error:', error);
+        alert('Something went wrong. Please try again.');
+      });
+    });
+  </script>
+</body>
+</html>
